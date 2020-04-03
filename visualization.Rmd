@@ -126,5 +126,5 @@ test_labels<-lb[r1==2,6]
 model2<-knn(train = train,test=test,cl=train_labels,k=3)
 # evaluate the model perfomance
 data.frame(model2,test_labels)
-```
+
 
