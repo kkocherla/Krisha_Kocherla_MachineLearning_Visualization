@@ -1,19 +1,6 @@
----
-title: "Untitled"
-author: 'student name:'
-date: "April 1, 2020"
-output:
-  word_document: default
-  html_document: default
-  pdf_document: default
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
+#Project is done in R
 # libraries
-```{r}
+
 rm(list=ls())
 
 library(ggplot2)
@@ -27,35 +14,32 @@ library(foreach)
 library(caret)
 library(twitteR)
 
-```
 #importing data set
 
-```{r}
+
 labour=read_csv("C:/Users/koche/OneDrive/Desktop/LabourData.csv")
 lb=labour
 employement=read_csv("C:/Users/koche/OneDrive/Desktop/employementData.csv")
 em=employement
-```
+
 
 # descriptive statistics
-```{r}
+
 head(labour)
 head(employement)
 
 
-```
 # visualization
-to start with we construct box plot for various numericle in both data sets
-```{r}
+#to start with we construct box plot for various numericle in both data sets
 boxplot(labour$`Oct-19`,labour$`Nov-19`,labour$`Dec-19`,labour$`Jan-20`,labour$`Feb-20`,names = c("oct-19","nov-19","dec-19","jan-20","feb-20"))
 # a similar plot for the employement  was visualized as shown below
 boxplot(employement$`Oct-19`,employement$`Nov-19`,employement$`Dec-19`,employement$`Jan-20`,employement$`Feb-20`,names = c("oct-19","nov-19","dec-19","jan-20","feb-20"))
 
-```
 
-However the above plots shows combined data for Sexes. we need to seperate or group the data by sex and visualize the distribution as shown beow
 
-```{r}
+#However the above plots shows combined data for Sexes. we need to seperate or group the data by sex and visualize the distribution as #shown beow
+
+
 #means  in various Sex of individuals
 #1. labour 
 labour_sex<-labour%>%group_by(Sex)
@@ -64,18 +48,18 @@ labour_sex%>%summarise(`Oct-19`=mean(`Oct-19`),`Nov-19`=mean(`Nov-19`),`Dec-19`=
 employement_sex<-employement%>%group_by(Sex)
 employement_sex%>%summarise(`Oct-19`=mean(`Oct-19`),`Nov-19`=mean(`Nov-19`),`Dec-19`=mean(`Dec-19`),`Jan-20`=mean(`Jan-20`),`Feb-20`=mean(`Feb-20`))
 
-```
-The above outputs shows means labours and employments for variosu monts grouped ny the Sex of individuals.However, it is equaly important to visually shows the average employement and labour for varios month grouped by individuals age grups as shown below
-```{r}
+
+#The above outputs shows means labours and employments for variosu monts grouped ny the Sex of individuals.However, it is equaly #important to visually shows the average employement and labour for varios month grouped by individuals age grups as shown below
+
 #1. labour 
 labour_sex<-labour%>%group_by(`Age group`)
 labour_sex%>%summarise(`Oct-19`=mean(`Oct-19`),`Nov-19`=mean(`Nov-19`),`Dec-19`=mean(`Dec-19`),`Jan-20`=mean(`Jan-20`),`Feb-20`=mean(`Feb-20`))
 #2.employement means
 employement_sex<-employement%>%group_by(`Age group`)
 employement_sex%>%summarise(`Oct-19`=mean(`Oct-19`),`Nov-19`=mean(`Nov-19`),`Dec-19`=mean(`Dec-19`),`Jan-20`=mean(`Jan-20`),`Feb-20`=mean(`Feb-20`))
-```
-A more in depth visualization using box plot for various month but grouped in sex
-```{r}
+
+#A more in depth visualization using box plot for various month but grouped in sex
+
 par(mfrow=c(5,1))
 ggplot(data=labour,mapping = aes(x=reorder(Sex,`Oct-19`,median,na.rm=TRUE),y=`Oct-19`))+geom_boxplot()+labs(x="SEx",y="labour(`Oct-19`)")
 ggplot(data=labour,mapping = aes(x=reorder(Sex,`Nov-19`,median,na.rm=TRUE),y=`Nov-19`))+geom_boxplot()+labs(x="`SEx`",y="labour(`Nov-19`)")
@@ -85,11 +69,10 @@ ggplot(data=labour,mapping = aes(x=reorder(Sex,`Dec-19`,median,na.rm=TRUE),y=`De
 ggplot(data=labour,mapping = aes(x=reorder(Sex,`Jan-20`,median,na.rm=TRUE),y=`Jan-20`))+geom_boxplot()+labs(x="`SEx`",y="labour(`Jan-20`)")
 ggplot(data=labour,mapping = aes(x=reorder(Sex,`Feb-20`,median,na.rm=TRUE),y=`Feb-20`))+geom_boxplot()+labs(x="`SEx`",y="labour(`Feb-20`)")
 
-```
 
-As shown above the average labour for male is high as compared to that of female. in the last Five plots we can see that wen males and female labour is combined for various monthe their averages will raise significantly.
-Similary we ploted for the employement characteristics for various months. This is as shown below.
-```{r}
+#As shown above the average labour for male is high as compared to that of female. in the last Five plots we can see that wen males and #female labour is combined for various monthe their averages will raise significantly.
+#Similary we ploted for the employement characteristics for various months. This is as shown below.
+
 par(mfrow=c(5,1))
 ggplot(data=employement,mapping = aes(x=reorder(Sex,`Oct-19`,median,na.rm=TRUE),y=`Oct-19`))+geom_boxplot()+labs(x="SEx",y="employement(`Oct-19`)")
 ggplot(data=employement,mapping = aes(x=reorder(Sex,`Nov-19`,median,na.rm=TRUE),y=`Nov-19`))+geom_boxplot()+labs(x="`SEx`",y="employement(`Nov-19`)")
@@ -99,12 +82,12 @@ ggplot(data=employement,mapping = aes(x=reorder(Sex,`Dec-19`,median,na.rm=TRUE),
 ggplot(data=employement,mapping = aes(x=reorder(Sex,`Jan-20`,median,na.rm=TRUE),y=`Jan-20`))+geom_boxplot()+labs(x="`SEx`",y="employement(`Jan-20`)")
 ggplot(data=employement,mapping = aes(x=reorder(Sex,`Feb-20`,median,na.rm=TRUE),y=`Feb-20`))+geom_boxplot()+labs(x="`SEx`",y="employement(`Feb-20`)")
 
-```
 
-For the purposes on the improvement in the dataset. Machine learning can be employed to train the model using the datasets in order to make them smarter.In this cases KNN neighbouhood algorithm would be approprieate. The KNN or simply k-nearest algorithm is a suppervised machine model.THis meas that the model needs to be trained for it to be able to predict futute given certain datasets.The model simply calculated the similarity in new data and is used to predict against the similaities in the already existing data in the model.
-In order to have better approximation/ prediction a significant large portion of the dataset is used for training the model(about75%). While the lest would be used to test the model precision.
-Knn algorthm can be uses in our two datasets as follows
-```{r}
+
+#For the purposes on the improvement in the dataset. Machine learning can be employed to train the model using the datasets in order to #make them smarter.In this cases KNN neighbouhood algorithm would be approprieate. The KNN or simply k-nearest algorithm is a #suppervised machine model.THis meas that the model needs to be trained for it to be able to predict futute given certain datasets.The #model simply calculated the similarity in new data and is used to predict against the similaities in the already existing data in the #model.
+#In order to have better approximation/ prediction a significant large portion of the dataset is used for training the model(about75%). #While the lest would be used to test the model precision.
+#Knn algorthm can be uses in our two datasets as follows
+
 # normalizing the numeric variables
 norm<-function(x){
   return((x-min(x))/(max(x)-min(x)))
@@ -122,11 +105,11 @@ model1<-knn(train = train,test=test,cl=train_labels,k=3)
 # evaluate the model perfomance
 
 data.frame(model1,test_labels)
-```
 
-A similar approache can be used to predict the Sex of employemen chatactersistic as follows.
+
+#A similar approache can be used to predict the Sex of employemen chatactersistic as follows.
 This time we used 90% of the data to train the model
-```{r}
+
 
 norm<-function(x){
   return((x-min(x))/(max(x)-min(x)))
