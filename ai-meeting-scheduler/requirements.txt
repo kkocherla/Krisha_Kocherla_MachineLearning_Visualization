@@ -1,0 +1,13 @@
+# Core Libraries
+# Add your core dependencies here, for example:
+# numpy
+# pandas
+
+# NLP and AI
+# Add your AI and NLP libraries here, for example:
+# spacy
+# transformers
+
+# Calendar API
+# Add your calendar API libraries here, for example:
+# google-api-python-client
